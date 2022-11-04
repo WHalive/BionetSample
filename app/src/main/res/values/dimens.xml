@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="lang_button_sides_padding">20dp</dimen>
+    <dimen name="lang_button_top_bottom_padding">25dp</dimen>
+    <dimen name="lang_button_margin">10dp</dimen>
+
+    <dimen name="navigation_drawer_width">300dp</dimen>
+    <dimen name="divider_size">1dp</dimen>
+    <dimen name="student_name_tv">22sp</dimen>
+    <dimen name="today_info_text_size_tv">20sp</dimen>
+    <dimen name="main_text_size">18sp</dimen>
+    <dimen name="margin_left">10dp</dimen>
+    <dimen name="tables_text_size">18sp</dimen>
+</resources>

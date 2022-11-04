@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">BionetSample</string>
+    <string name="schedule_title">Dars jadvali</string>
+    <string name="home_title">Asosiy</string>
+    <string name="scores_title">Baholar</string>
+
+    <string name="choose_region">Viloyatni tanlang</string>
+    <string name="choose_school_type">O\'quv muassasasi turini tanlang</string>
+    <string name="choose_school">O\'quv muassasasini tanlang</string>
+    <string name="choose_group">Sinfni tanlang</string>
+    <string name="choose_student">Farzandingizni tanlang</string>
+    <string name="enter_student_id">Talaba ID raqamini kiriting</string>
+    <string name="error_fill_this_blank">To\'ldiring.</string>
+    <string name="error_wrong_student_id">Xato ID raqami.</string>
+    <string name="enter_phone_number">Telefon raqamingizni kiriting.</string>
+    <string name="login">Kirish</string>
+    <string name="register">Ro\'yxatdan o\'tish</string>
+</resources>
