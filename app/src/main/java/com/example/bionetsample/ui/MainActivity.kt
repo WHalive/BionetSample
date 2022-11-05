@@ -1,7 +1,8 @@
-package com.example.bionetsample
+package com.example.bionetsample.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.bionetsample.R
 import com.example.bionetsample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
