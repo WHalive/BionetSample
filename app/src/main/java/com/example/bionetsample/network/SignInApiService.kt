@@ -1,6 +1,7 @@
 package com.example.bionetsample.network
 
 import com.example.bionetsample.data.Regions
+import com.example.bionetsample.data.Schools
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -22,10 +23,13 @@ val retrofit = Retrofit.Builder()
 interface SignInApiService {
     @GET("info/regions")
     suspend fun getRegions(): Regions
+
+    @GET("info/schools")
+    suspend fun geSchools(): Schools
 }
 
-object SignInApi{
-    val retrofitService: SignInApiService by lazy{
+object SignInApi {
+    val retrofitService: SignInApiService by lazy {
         retrofit.create(SignInApiService::class.java)
     }
 }
