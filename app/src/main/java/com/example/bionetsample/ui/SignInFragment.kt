@@ -16,6 +16,7 @@ import com.example.bionetsample.data.RegionItem
 import com.example.bionetsample.data.SchoolItem
 import com.example.bionetsample.data.SchoolTypeItem
 import com.example.bionetsample.databinding.FragmentSignInBinding
+import com.example.bionetsample.entity.RegionEntity
 import com.example.bionetsample.viewModel.SignInViewModel
 
 class SignInFragment : Fragment() {
@@ -28,11 +29,11 @@ class SignInFragment : Fragment() {
     private val viewModel: SignInViewModel by viewModels()
 
     //    private var region: Int = 2
-    private val regionsAdapter: ArrayAdapter<RegionItem> by lazy {
+    private val regionsAdapter: ArrayAdapter<RegionEntity> by lazy {
         ArrayAdapter(
             requireContext(),
             R.layout.sign_in_dropdown_item,
-            mutableListOf<RegionItem>()
+            mutableListOf<RegionEntity>()
         )
     }
 
@@ -77,10 +78,11 @@ class SignInFragment : Fragment() {
         (binding.typesSpinner.editText as? AutoCompleteTextView)?.setAdapter(schoolTypesAdapter)
         (binding.schoolsSpinner.editText as? AutoCompleteTextView)?.setAdapter(schoolsAdapter)
 
-        viewModel.regions.observe(viewLifecycleOwner) {
+        viewModel.regions.observe(viewLifecycleOwner) { regions ->
             regionsAdapter.clear()
-            regionsAdapter.addAll(it)
+            regionsAdapter.addAll(regions)
             regionsAdapter.notifyDataSetChanged()
+
         }
 
         viewModel.schoolTypes.observe(viewLifecycleOwner) {
