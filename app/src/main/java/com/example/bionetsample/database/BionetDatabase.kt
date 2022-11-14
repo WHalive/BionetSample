@@ -5,11 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.bionetsample.dao.RegionDao
+import com.example.bionetsample.dao.SchoolDao
 import com.example.bionetsample.entity.RegionEntity
+import com.example.bionetsample.entity.SchoolEntity
 
 @Database(
     entities = [
-        RegionEntity::class
+        RegionEntity::class,
+        SchoolEntity::class
     ],
     version = 1
 )
@@ -17,6 +20,8 @@ import com.example.bionetsample.entity.RegionEntity
 abstract class BionetDatabase : RoomDatabase() {
 
     abstract fun regionDao(): RegionDao
+
+    abstract fun schoolDao(): SchoolDao
 
     companion object {
 

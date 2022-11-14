@@ -18,6 +18,7 @@ import com.example.bionetsample.data.SchoolItem
 import com.example.bionetsample.data.SchoolTypeItem
 import com.example.bionetsample.databinding.FragmentSignInBinding
 import com.example.bionetsample.entity.RegionEntity
+import com.example.bionetsample.entity.SchoolEntity
 import com.example.bionetsample.viewModel.SignInViewModel
 import kotlinx.coroutines.launch
 
@@ -63,15 +64,15 @@ class SignInFragment : Fragment() {
     private val schoolTypeSelectedListener by lazy {
         AdapterView.OnItemClickListener { _, _, position, _ ->
             schoolTypeItem = schoolTypesAdapter.getItem(position)!!.id
-            viewModel.getAllSchools(region, schoolTypeItem)
+            viewModel.getAllSchools(region, school)
         }
     }
 
-    private val schoolsAdapter: ArrayAdapter<SchoolItem> by lazy {
+    private val schoolsAdapter: ArrayAdapter<SchoolEntity> by lazy {
         ArrayAdapter(
             requireContext(),
             R.layout.sign_in_dropdown_item,
-            mutableListOf<SchoolItem>()
+            mutableListOf<SchoolEntity>()
         )
     }
 
@@ -127,7 +128,7 @@ class SignInFragment : Fragment() {
         (binding.typesSpinner.editText as AutoCompleteTextView).setText(
             schoolTypesAdapter.getItem(0).toString(), false
         )
-        viewModel.getAllSchools(region, schoolTypeItem)
+        viewModel.getAllSchools(region, school)
     }
 
     private fun showSchoolsSpinner() {

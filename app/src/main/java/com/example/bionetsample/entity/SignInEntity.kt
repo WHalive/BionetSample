@@ -14,3 +14,13 @@ data class RegionEntity(
 ) {
     override fun toString() = name
 }
+
+data class SchoolsEntities(val schools: List<SchoolEntity>)
+@Entity(tableName = "school_entity")
+data class SchoolEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id : Int,
+    val name: String
+){
+    override fun toString() = name
+    }

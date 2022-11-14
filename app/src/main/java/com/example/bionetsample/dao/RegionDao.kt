@@ -16,3 +16,4 @@ interface RegionDao {
         (onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRegions(regions: List<RegionEntity>)
 }
+
