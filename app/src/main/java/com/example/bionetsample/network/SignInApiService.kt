@@ -1,5 +1,6 @@
 package com.example.bionetsample.network
 
+import android.util.Log
 import com.example.bionetsample.data.Regions
 import com.example.bionetsample.data.Schools
 import com.example.bionetsample.entity.RegionsEntities

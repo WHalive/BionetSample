@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.bionetsample.R
 import com.example.bionetsample.data.RegionItem
 import com.example.bionetsample.data.SchoolItem
@@ -18,6 +19,7 @@ import com.example.bionetsample.data.SchoolTypeItem
 import com.example.bionetsample.databinding.FragmentSignInBinding
 import com.example.bionetsample.entity.RegionEntity
 import com.example.bionetsample.viewModel.SignInViewModel
+import kotlinx.coroutines.launch
 
 class SignInFragment : Fragment() {
 
@@ -109,12 +111,8 @@ class SignInFragment : Fragment() {
             (binding.regionsSpinner.editText as AutoCompleteTextView).setText(regions.find { it.id == region }
                 .toString(), false)
             showTypesSpinner()
+            showSchoolsSpinner()
         }
-//        viewModel.schools.observe(viewLifecycleOwner){schools ->
-//            schoolsAdapter.clear()
-//            schoolsAdapter.addAll(schools)
-//            schoolsAdapter.notifyDataSetChanged()
-//        }
 
         binding.regButton.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
@@ -129,12 +127,18 @@ class SignInFragment : Fragment() {
         (binding.typesSpinner.editText as AutoCompleteTextView).setText(
             schoolTypesAdapter.getItem(0).toString(), false
         )
+        viewModel.getAllSchools(region, schoolTypeItem)
     }
 
     private fun showSchoolsSpinner() {
-        schoolsAdapter.notifyDataSetChanged()
-        (binding.schoolsSpinner.editText as AutoCompleteTextView).setText(
-            schoolsAdapter.getItem(0).toString(), false
-        )
+        viewModel.schools.observe(viewLifecycleOwner) { schools ->
+            schoolsAdapter.clear()
+            schoolsAdapter.addAll(schools)
+            schoolsAdapter.notifyDataSetChanged()
+            (binding.schoolsSpinner.editText as AutoCompleteTextView).setText(
+                schools.first().toString(), false
+            )
+            school = schools[0].id
+        }
     }
 }

@@ -49,9 +49,10 @@ class SignInViewModel : ViewModel() {
             try {
                 _schools.value =
                     SignInApi.retrofitService.getSchools(regionId, school).schools
+                Log.d("viewModel", "$schools")
             } catch (e: Exception) {
                 Log.e("whalive", e.message.orEmpty())
-                _regions.value = emptyList()
+                _schools.value = emptyList()
             }
         }
     }
