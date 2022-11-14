@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class SignInViewModel : ViewModel() {
     private val repository: RegionRepository
-    private var _regions = MutableLiveData<List<RegionEntity>>()
+    private var _regions = MutableLiveData<List<RegionEntity>>(emptyList())
     var regions: LiveData<List<RegionEntity>> = _regions
     private var _schoolTypes = MutableLiveData<List<SchoolTypeItem>>()
     val schoolTypes: LiveData<List<SchoolTypeItem>> = _schoolTypes
@@ -30,13 +30,25 @@ class SignInViewModel : ViewModel() {
         getAllRegions()
     }
 
-    private fun getAllRegions() {
+    fun getAllRegions() {
         viewModelScope.launch {
             try {
 //                _regions.value = SignInApi.retrofitService.getRegions().regions
                 repository.insertRegions()
                 _schoolTypes.value
-                _schools.value = SignInApi.retrofitService.geSchools().schools
+//                _schools.value = SignInApi.retrofitService.getSchools(regionId, schoolTypeIjtem).schools
+            } catch (e: Exception) {
+                Log.e("whalive", "getRegions", e)
+                _regions.value = emptyList()
+            }
+        }
+    }
+
+    fun getAllSchools(regionId: Int, school: Int) {
+        viewModelScope.launch {
+            try {
+                _schools.value =
+                    SignInApi.retrofitService.getSchools(regionId, school).schools
             } catch (e: Exception) {
                 Log.e("whalive", e.message.orEmpty())
                 _regions.value = emptyList()

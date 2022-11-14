@@ -26,10 +26,10 @@ interface SignInApiService {
     @GET("info/regions")
     suspend fun getRegions(): RegionsEntities
 
-    @GET("info/schools/")
-    suspend fun geSchools(
-//        @Path("regionId") regionId: Int,
-//        @Path("schoolType") schoolType: Int
+    @GET("info/schools/{regionId}/{schoolTypeItem}")
+    suspend fun getSchools(
+        @Path("regionId") regionId: Int,
+        @Path("schoolTypeItem") schoolTypeItem: Int
     ): Schools
 }
 

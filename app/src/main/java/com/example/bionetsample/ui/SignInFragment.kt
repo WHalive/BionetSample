@@ -27,8 +27,10 @@ class SignInFragment : Fragment() {
 
     private lateinit var binding: FragmentSignInBinding
     private val viewModel: SignInViewModel by viewModels()
+    private var region: Int = 2
+    private var schoolTypeItem: Int = 1
+    private var school: Int = 1
 
-    //    private var region: Int = 2
     private val regionsAdapter: ArrayAdapter<RegionEntity> by lazy {
         ArrayAdapter(
             requireContext(),
@@ -37,11 +39,12 @@ class SignInFragment : Fragment() {
         )
     }
 
-//    private val regionSelectedListener by lazy {
-//        AdapterView.OnItemClickListener { _, _, position, _ ->
-//            region = regionsAdapter.getItem(position)!!.id
-//        }
-//    }
+    private val regionSelectedListener by lazy {
+        AdapterView.OnItemClickListener { _, _, position, _ ->
+            region = regionsAdapter.getItem(position)!!.id
+            viewModel.getAllRegions()
+        }
+    }
 
     private val schoolTypesAdapter: ArrayAdapter<SchoolTypeItem> by lazy {
         ArrayAdapter(
@@ -55,12 +58,25 @@ class SignInFragment : Fragment() {
         )
     }
 
+    private val schoolTypeSelectedListener by lazy {
+        AdapterView.OnItemClickListener { _, _, position, _ ->
+            schoolTypeItem = schoolTypesAdapter.getItem(position)!!.id
+            viewModel.getAllSchools(region, schoolTypeItem)
+        }
+    }
+
     private val schoolsAdapter: ArrayAdapter<SchoolItem> by lazy {
         ArrayAdapter(
             requireContext(),
             R.layout.sign_in_dropdown_item,
             mutableListOf<SchoolItem>()
         )
+    }
+
+    private val schoolSelectedListener by lazy {
+        AdapterView.OnItemClickListener { _, _, position, _ ->
+            school = schoolsAdapter.getItem(position)!!.id
+        }
     }
 
     override fun onCreateView(
@@ -74,29 +90,31 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (binding.regionsSpinner.editText as? AutoCompleteTextView)?.setAdapter(regionsAdapter)
-        (binding.typesSpinner.editText as? AutoCompleteTextView)?.setAdapter(schoolTypesAdapter)
-        (binding.schoolsSpinner.editText as? AutoCompleteTextView)?.setAdapter(schoolsAdapter)
+        val regionsSpinner = binding.regionsSpinner.editText as AutoCompleteTextView
+        regionsSpinner.setAdapter(regionsAdapter)
+        regionsSpinner.onItemClickListener = regionSelectedListener
+
+        val schoolTypesSpinner = binding.typesSpinner.editText as AutoCompleteTextView
+        schoolTypesSpinner.setAdapter(schoolTypesAdapter)
+        schoolTypesSpinner.onItemClickListener = schoolTypeSelectedListener
+
+        val schoolsSpinner = binding.schoolsSpinner.editText as AutoCompleteTextView
+        schoolsSpinner.setAdapter(schoolsAdapter)
+        schoolsSpinner.onItemClickListener = schoolSelectedListener
 
         viewModel.regions.observe(viewLifecycleOwner) { regions ->
             regionsAdapter.clear()
             regionsAdapter.addAll(regions)
             regionsAdapter.notifyDataSetChanged()
-
+            (binding.regionsSpinner.editText as AutoCompleteTextView).setText(regions.find { it.id == region }
+                .toString(), false)
+            showTypesSpinner()
         }
-
-        viewModel.schoolTypes.observe(viewLifecycleOwner) {
-            schoolTypesAdapter.clear()
-            schoolTypesAdapter.addAll(it)
-            schoolTypesAdapter.notifyDataSetChanged()
-        }
-
-        viewModel.schools.observe(viewLifecycleOwner) {
-            schoolsAdapter.clear()
-            schoolsAdapter.addAll(it)
-            schoolsAdapter.notifyDataSetChanged()
-        }
-
+//        viewModel.schools.observe(viewLifecycleOwner){schools ->
+//            schoolsAdapter.clear()
+//            schoolsAdapter.addAll(schools)
+//            schoolsAdapter.notifyDataSetChanged()
+//        }
 
         binding.regButton.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
@@ -104,5 +122,19 @@ class SignInFragment : Fragment() {
                 ?.addToBackStack(null)
                 ?.commit()
         }
+    }
+
+    private fun showTypesSpinner() {
+        schoolTypesAdapter.notifyDataSetChanged()
+        (binding.typesSpinner.editText as AutoCompleteTextView).setText(
+            schoolTypesAdapter.getItem(0).toString(), false
+        )
+    }
+
+    private fun showSchoolsSpinner() {
+        schoolsAdapter.notifyDataSetChanged()
+        (binding.schoolsSpinner.editText as AutoCompleteTextView).setText(
+            schoolsAdapter.getItem(0).toString(), false
+        )
     }
 }
