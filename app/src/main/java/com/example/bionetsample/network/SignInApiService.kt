@@ -3,8 +3,6 @@ package com.example.bionetsample.network
 import android.util.Log
 import com.example.bionetsample.data.Regions
 import com.example.bionetsample.data.Schools
-import com.example.bionetsample.entity.RegionsEntities
-import com.example.bionetsample.entity.SchoolsEntities
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,13 +24,13 @@ val retrofit = Retrofit.Builder()
 
 interface SignInApiService {
     @GET("info/regions")
-    suspend fun getRegions(): RegionsEntities
+    suspend fun getRegions(): Regions
 
     @GET("info/schools/{regionId}/{schoolTypeItem}")
     suspend fun getSchools(
         @Path("regionId") regionId: Int,
         @Path("schoolTypeItem") schoolTypeItem: Int
-    ): SchoolsEntities
+    ): Schools
 }
 
 object SignInApi {

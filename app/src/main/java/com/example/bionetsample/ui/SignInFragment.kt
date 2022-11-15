@@ -17,8 +17,6 @@ import com.example.bionetsample.data.RegionItem
 import com.example.bionetsample.data.SchoolItem
 import com.example.bionetsample.data.SchoolTypeItem
 import com.example.bionetsample.databinding.FragmentSignInBinding
-import com.example.bionetsample.entity.RegionEntity
-import com.example.bionetsample.entity.SchoolEntity
 import com.example.bionetsample.viewModel.SignInViewModel
 import kotlinx.coroutines.launch
 
@@ -34,11 +32,11 @@ class SignInFragment : Fragment() {
     private var schoolTypeItem: Int = 1
     private var school: Int = 1
 
-    private val regionsAdapter: ArrayAdapter<RegionEntity> by lazy {
+    private val regionsAdapter: ArrayAdapter<RegionItem> by lazy {
         ArrayAdapter(
             requireContext(),
             R.layout.sign_in_dropdown_item,
-            mutableListOf<RegionEntity>()
+            mutableListOf<RegionItem>()
         )
     }
 
@@ -64,15 +62,15 @@ class SignInFragment : Fragment() {
     private val schoolTypeSelectedListener by lazy {
         AdapterView.OnItemClickListener { _, _, position, _ ->
             schoolTypeItem = schoolTypesAdapter.getItem(position)!!.id
-            viewModel.getAllSchools(region, school)
+            viewModel.getAllSchools(region, schoolTypeItem)
         }
     }
 
-    private val schoolsAdapter: ArrayAdapter<SchoolEntity> by lazy {
+    private val schoolsAdapter: ArrayAdapter<SchoolItem> by lazy {
         ArrayAdapter(
             requireContext(),
             R.layout.sign_in_dropdown_item,
-            mutableListOf<SchoolEntity>()
+            mutableListOf<SchoolItem>()
         )
     }
 
@@ -128,7 +126,7 @@ class SignInFragment : Fragment() {
         (binding.typesSpinner.editText as AutoCompleteTextView).setText(
             schoolTypesAdapter.getItem(0).toString(), false
         )
-        viewModel.getAllSchools(region, school)
+        viewModel.getAllSchools(region, schoolTypeItem)
     }
 
     private fun showSchoolsSpinner() {
@@ -140,6 +138,8 @@ class SignInFragment : Fragment() {
                 schools.first().toString(), false
             )
             school = schools[0].id
+
+            Log.d("signInFragment", "$schools")
         }
     }
 }
