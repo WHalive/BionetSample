@@ -1,6 +1,6 @@
 package com.example.bionetsample.network
 
-import android.util.Log
+import com.example.bionetsample.data.Group
 import com.example.bionetsample.data.Regions
 import com.example.bionetsample.data.Schools
 import okhttp3.OkHttpClient
@@ -22,7 +22,7 @@ val retrofit = Retrofit.Builder()
     .client(OkHttpClient.Builder().addInterceptor(loggingInterceptor).build())
     .build()
 
-interface SignInApiService {
+interface BionetApiService {
     @GET("info/regions")
     suspend fun getRegions(): Regions
 
@@ -31,10 +31,16 @@ interface SignInApiService {
         @Path("regionId") regionId: Int,
         @Path("schoolTypeItem") schoolTypeItem: Int
     ): Schools
+
+    @GET("student/getgroups/{regionId}/{schoolTypeItem}")
+    suspend fun getGroups(
+        @Path("regionId") regionId: Int,
+        @Path("SchoolTypeItem") schoolTypeItem: Int
+    ): List<Group>
 }
 
-object SignInApi {
-    val retrofitService: SignInApiService by lazy {
-        retrofit.create(SignInApiService::class.java)
+object BionetApi {
+    val retrofitService: BionetApiService by lazy {
+        retrofit.create(BionetApiService::class.java)
     }
 }

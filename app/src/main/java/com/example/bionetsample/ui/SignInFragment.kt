@@ -1,5 +1,9 @@
 package com.example.bionetsample.ui
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -17,7 +23,7 @@ import com.example.bionetsample.data.RegionItem
 import com.example.bionetsample.data.SchoolItem
 import com.example.bionetsample.data.SchoolTypeItem
 import com.example.bionetsample.databinding.FragmentSignInBinding
-import com.example.bionetsample.viewModel.SignInViewModel
+import com.example.bionetsample.viewModel.BionetViewModel
 import kotlinx.coroutines.launch
 
 class SignInFragment : Fragment() {
@@ -27,7 +33,7 @@ class SignInFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentSignInBinding
-    private val viewModel: SignInViewModel by viewModels()
+    private val viewModel: BionetViewModel by viewModels()
     private var region: Int = 2
     private var schoolTypeItem: Int = 1
     private var school: Int = 1
@@ -86,6 +92,7 @@ class SignInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 

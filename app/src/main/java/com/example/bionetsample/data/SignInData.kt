@@ -29,3 +29,12 @@ data class SchoolItem(
 ) {
     override fun toString() = name
 }
+
+data class Group(
+    val name: String
+)
+
+data class Student(
+    val id: Int,
+    val name: String
+)
