@@ -24,6 +24,7 @@ class BionetViewModel : ViewModel() {
 
     init {
         getAllRegions()
+
     }
 
     fun getAllRegions() {
@@ -32,7 +33,7 @@ class BionetViewModel : ViewModel() {
                 _regions.value = BionetApi.retrofitService.getRegions().regions
                 _schoolTypes.value
             } catch (e: Exception) {
-                Log.e("whalive", "getRegions", e)
+                Log.e("whalive",  e.message.orEmpty())
                 _regions.value = emptyList()
             }
         }

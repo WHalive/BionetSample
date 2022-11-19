@@ -139,6 +139,13 @@ class SignInFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (!checkNetwork()) {
+            return
+        }
+    }
+
     private fun showTypesSpinner() {
         schoolTypesAdapter.notifyDataSetChanged()
         (binding.typesSpinner.editText as AutoCompleteTextView).setText(
