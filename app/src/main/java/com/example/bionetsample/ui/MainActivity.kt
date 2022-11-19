@@ -1,6 +1,10 @@
 package com.example.bionetsample.ui
 
+import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -8,16 +12,25 @@ import android.os.Build.VERSION_CODES.N
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.bionetsample.R
 import com.example.bionetsample.databinding.ActivityMainBinding
+import com.example.bionetsample.extensions.isOnline
+import com.example.bionetsample.extensions.showNetworkWarning
+import com.example.bionetsample.viewModel.BionetViewModel
 import java.lang.reflect.Array.get
 
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -45,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 //                .add(R.id.fragmentContainer, SignInFragment.newInstance())
 //                .commit()
 //        }
-
+//
 //    val isNetworkAvailable: Boolean
 //        get() {
 //            val connectivityManager =

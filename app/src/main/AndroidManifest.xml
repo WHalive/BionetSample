@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE">
     </uses-permission>
 
-
     <application
         android:name=".app.BionetApplication"
         android:allowBackup="true"

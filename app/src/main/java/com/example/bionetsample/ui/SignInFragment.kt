@@ -1,6 +1,9 @@
 package com.example.bionetsample.ui
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -13,16 +16,21 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.bionetsample.R
 import com.example.bionetsample.data.RegionItem
 import com.example.bionetsample.data.SchoolItem
 import com.example.bionetsample.data.SchoolTypeItem
 import com.example.bionetsample.databinding.FragmentSignInBinding
+import com.example.bionetsample.extensions.isOnline
+import com.example.bionetsample.extensions.showNetworkWarning
 import com.example.bionetsample.viewModel.BionetViewModel
 import kotlinx.coroutines.launch
 
@@ -98,6 +106,10 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!checkNetwork()) {
+            return
+        }
         val regionsSpinner = binding.regionsSpinner.editText as AutoCompleteTextView
         regionsSpinner.setAdapter(regionsAdapter)
         regionsSpinner.onItemClickListener = regionSelectedListener
@@ -119,7 +131,6 @@ class SignInFragment : Fragment() {
             showTypesSpinner()
             showSchoolsSpinner()
         }
-
         binding.regButton.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.fragmentContainer, SingUpFragment(), "SignUpFragment")
@@ -149,4 +160,14 @@ class SignInFragment : Fragment() {
             Log.d("signInFragment", "$schools")
         }
     }
+
+    private fun checkNetwork(): Boolean {
+        return if (requireActivity().isOnline()) {
+            true
+        } else {
+            showNetworkWarning()
+            false
+        }
+    }
+
 }
